@@ -1,12 +1,11 @@
-const formatCurrency = (amount) => {
-  return `₹${Number(amount).toLocaleString('en-IN')}`;
-};
-
-const formatDate = (date) => {
-  return new Date(date).toLocaleDateString('en-IN');
-};
-
-module.exports = {
-  formatCurrency,
-  formatDate,
-};
+{
+  "dependencies": {
+    "multer": "^2.1.1",
+    "puppeteer": "^24.43.1",
+    "supertest": "^7.2.2",
+    "uuid": "^14.0.0"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}
