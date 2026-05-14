@@ -1,0 +1,64 @@
+services:
+  # Backend API Service
+  - type: web
+    name: erp-backend
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: cd backend && npm install --production
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_REFRESH_SECRET
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: CLOUDINARY_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+    healthCheckPath: /api/health
+    healthCheckTimeout: 30
+    maxShutdownDelay: 30
+
+  # Frontend Static Site
+  - type: web
+    name: erp-frontend
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: cd frontend && npm install --production && npm run build
+    startCommand: npx serve -s frontend/dist -l 3001
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: VITE_API_BASE_URL
+        value: https://erp-backend.onrender.com/api
+      - key: VITE_SOCKET_URL
+        value: https://erp-backend.onrender.com
+
+# Databases can be added here but it's recommended to use external services
+# For MongoDB: Use MongoDB Atlas (free tier)
+# For Redis: Use Redis Cloud or Upstash
